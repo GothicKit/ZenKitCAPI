@@ -58,18 +58,32 @@ jobs:
           path: 'build/libzenkitcapi*'
   windows:
     name: "Windows"
-    runs-on: 'windows-2019'
+    runs-on: 'windows-latest'
+    defaults:
+      run:
+        shell: 'msys2 {0}'
     steps:
       - uses: 'actions/checkout@v3'
         with:
           submodules: 'recursive'
+      - name: 'Install MinGW'
+        uses: 'msys2/setup-msys2@v2'
+        with:
+          msystem: 'mingw64'
+          update: true
+          install: >-
+            git
+            make
+          pacboy: >-
+            toolchain:p
+            cmake:p
+            ninja:p
       - name: 'Configure'
-        shell: 'bash'
-        run: 'cmake -B build -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE=Release -DZK_BUILD_EXAMPLES=ON -DZK_BUILD_TESTS=ON'
+        run: 'cmake -B build -G "MSYS Makefiles" -DCMAKE_BUILD_TYPE=Release -DZK_BUILD_EXAMPLES=OFF -DZK_BUILD_TESTS=OFF'
       - name: 'Build'
         run: 'cmake --build build --config Release -j 2'
       - name: 'Publish Library'
         uses: 'actions/upload-artifact@v3'
         with:
           name: 'Windows x86-64 DLL'
-          path: 'build/Release/*'
+          path: 'build'

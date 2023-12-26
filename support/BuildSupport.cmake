@@ -15,6 +15,11 @@ function(bs_select_cflags SANITIZERS COMPILE LINK)
         bs_internal_select_cflags_gcc(${SANITIZERS} _INTERNAL_COMPILE_FLAGS _INTERNAL_LINK_FLAGS)
     endif()
 
+    if (MINGW)
+        list(APPEND _INTERNAL_COMPILE_FLAGS "-static")
+        list(APPEND _INTERNAL_LINK_FLAGS "-static")
+    endif()
+
     # return _INTERNAL_COMPILE_FLAGS, _INTERNAL_LINK_FLAGS;
     set(${COMPILE} ${_INTERNAL_COMPILE_FLAGS} PARENT_SCOPE)
     set(${LINK} ${_INTERNAL_LINK_FLAGS} PARENT_SCOPE)
