@@ -8,8 +8,10 @@
 #ifdef __cplusplus
 	#include <zenkit/Stream.hh>
 using ZkRead = zenkit::Read;
+using ZkWrite = zenkit::Write;
 #else
 typedef struct ZkInternal_Read ZkRead;
+typedef struct ZkInternal_Write ZkWrite;
 #endif
 
 typedef enum {
@@ -34,3 +36,16 @@ ZKC_API void ZkRead_del(ZkRead* slf);
 
 ZKC_API ZkSize ZkRead_getSize(ZkRead* slf);
 ZKC_API ZkSize ZkRead_getBytes(ZkRead* slf, void* buf, ZkSize length);
+
+typedef struct {
+	ZkSize (*write)(void* ctx, void const* buf, ZkSize len);
+	ZkSize (*seek)(void* ctx, ZkOffset off, ZkWhence whence);
+	ZkSize (*tell)(void const* ctx);
+	void (*del)(void const* ctx);
+} ZkWriteExt;
+
+ZKC_API ZkWrite* ZkWrite_newFile(FILE* stream);
+ZKC_API ZkWrite* ZkWrite_newMem(ZkByte* bytes, ZkSize length);
+ZKC_API ZkWrite* ZkWrite_newPath(ZkString path);
+ZKC_API ZkWrite* ZkWrite_newExt(ZkWriteExt ext, void* ctx);
+ZKC_API void ZkWrite_del(ZkWrite* slf);

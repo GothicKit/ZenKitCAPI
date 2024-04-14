@@ -98,3 +98,68 @@ ZkSize ZkRead_getBytes(ZkRead* slf, void* buf, ZkSize length) {
 	slf->seek(static_cast<ssize_t>(off), zenkit::Whence::BEG);
 	return count;
 }
+
+class ZkWriteExtImpl final : public zenkit::Write {
+public:
+	ZkWriteExtImpl(ZkWriteExt ext, void* ctx) : _m_ctx(ctx), _m_ext(ext) {}
+	ZkWriteExtImpl(ZkWriteExtImpl const&) = delete;
+	ZkWriteExtImpl(ZkWriteExtImpl&&) = delete;
+
+	~ZkWriteExtImpl() noexcept override {
+		if (_m_ctx && _m_ext.del) {
+			_m_ext.del(_m_ctx);
+		}
+
+		_m_ctx = nullptr;
+	}
+
+	size_t write(void const* buf, size_t len) noexcept override {
+		return _m_ext.write(_m_ctx, buf, len);
+	}
+
+	void seek(ssize_t off, zenkit::Whence whence) noexcept override {
+		_m_ext.seek(_m_ctx, off, static_cast<ZkWhence>(whence));
+	}
+
+	[[nodiscard]] size_t tell() const noexcept override {
+		return _m_ext.tell(_m_ctx);
+	}
+
+private:
+	void* _m_ctx;
+	ZkWriteExt _m_ext;
+};
+
+ZkWrite* ZkWrite_newFile(FILE* stream) {
+	ZKC_TRACE_FN();
+	ZKC_CHECK_NULL(stream);
+	return zenkit::Write::to(stream).release();
+}
+
+ZkWrite* ZkWrite_newMem(ZkByte* bytes, ZkSize length) {
+	ZKC_TRACE_FN();
+	ZKC_CHECK_NULL(bytes);
+	return zenkit::Write::to(reinterpret_cast<std::byte*>(bytes), length).release();
+}
+
+ZkWrite* ZkWrite_newPath(ZkString path) {
+	ZKC_TRACE_FN();
+	ZKC_CHECK_NULL(path);
+
+	try {
+		return zenkit::Write::to(path).release();
+	} catch (std::exception const& exc) {
+		ZKC_LOG_ERROR("ZkWrite_newPath() failed: %s", exc.what());
+		return nullptr;
+	}
+}
+
+ZkWrite* ZkWrite_newExt(ZkWriteExt ext, void* ctx) {
+	ZKC_TRACE_FN();
+	return new ZkWriteExtImpl {ext, ctx};
+}
+
+void ZkWrite_del(ZkWrite* slf) {
+	ZKC_TRACE_FN();
+	delete slf;
+}
