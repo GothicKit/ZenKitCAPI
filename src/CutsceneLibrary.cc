@@ -7,6 +7,8 @@
 ZKC_LOADER(ZkCutsceneLibrary);
 ZKC_PATH_LOADER(ZkCutsceneLibrary);
 ZKC_VFS_LOADER(ZkCutsceneLibrary);
+ZKC_SAVER(ZkCutsceneLibrary);
+ZKC_PATH_SAVER(ZkCutsceneLibrary);
 ZKC_DELETER(ZkCutsceneLibrary);
 
 ZkSize ZkCutsceneLibrary_getBlockCount(ZkCutsceneLibrary const* slf) {

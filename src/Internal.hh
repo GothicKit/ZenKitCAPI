@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 #pragma once
 #include <zenkit/Archive.hh>
+#include "zenkit-capi/Archive.h"
 
 #define ZKC_LOADER(cls)                                                                                                \
 	cls* cls##_load(ZkRead* buf) {                                                                                     \
@@ -51,6 +52,37 @@
                                                                                                                        \
 		auto rd = node->open_read();                                                                                   \
 		return cls##_load(rd.get());                                                                                   \
+	}
+
+#define ZKC_SAVER(cls)                                                                                                 \
+	void cls##_save(cls* slf, ZkWrite* buf, ZkArchiveFormat fmt) {                                                     \
+		if (buf == nullptr) {                                                                                          \
+			ZKC_LOG_WARN_NULL(#cls "_save");                                                                           \
+			return;                                                                                                    \
+		}                                                                                                              \
+                                                                                                                       \
+		try {                                                                                                          \
+          	slf->save(buf, static_cast<zenkit::ArchiveFormat>(fmt));                                                   \
+		} catch (std::exception const& exc) {                                                                          \
+			ZKC_LOG_ERROR(#cls "_save() failed: %s", exc.what());                                                      \
+			return;                                                                                                    \
+		}                                                                                                              \
+	}
+
+#define ZKC_PATH_SAVER(cls)                                                                                            \
+	void cls##_savePath(cls* slf, ZkString path, ZkArchiveFormat fmt) {                                                \
+		if (path == nullptr) {                                                                                         \
+			ZKC_LOG_WARN_NULL(#cls "_savePath");                                                                       \
+			return;                                                                                                    \
+		}                                                                                                              \
+                                                                                                                       \
+		try {                                                                                                          \
+            auto buf = zenkit::Write::to(path);                                                                        \
+            slf->save(buf.get(), static_cast<zenkit::ArchiveFormat>(fmt));                                             \
+		} catch (std::exception const& exc) {                                                                          \
+			ZKC_LOG_ERROR(#cls "_savePath() failed: %s", exc.what());                                                  \
+			return;                                                                                                    \
+		}                                                                                                              \
 	}
 
 #define ZKC_DELETER(cls)                                                                                               \

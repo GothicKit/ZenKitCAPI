@@ -1,6 +1,7 @@
 // Copyright © 2023. GothicKit Contributors
 // SPDX-License-Identifier: MIT
 #pragma once
+#include "Archive.h"
 #include "Library.h"
 #include "Stream.h"
 #include "Vfs.h"
@@ -21,6 +22,10 @@ typedef ZkBool (*ZkCutsceneBlockEnumerator)(void* ctx, ZkCutsceneBlock const* bl
 ZKC_API ZkCutsceneLibrary* ZkCutsceneLibrary_load(ZkRead* buf);
 ZKC_API ZkCutsceneLibrary* ZkCutsceneLibrary_loadPath(ZkString path);
 ZKC_API ZkCutsceneLibrary* ZkCutsceneLibrary_loadVfs(ZkVfs const* vfs, ZkString string);
+
+ZKC_API void ZkCutsceneLibrary_save(ZkCutsceneLibrary* slf, ZkWrite* buf, ZkArchiveFormat fmt);
+ZKC_API void ZkCutsceneLibrary_savePath(ZkCutsceneLibrary* slf, ZkString path, ZkArchiveFormat fmt);
+
 ZKC_API void ZkCutsceneLibrary_del(ZkCutsceneLibrary* slf);
 
 ZKC_API ZkSize ZkCutsceneLibrary_getBlockCount(ZkCutsceneLibrary const* slf);
