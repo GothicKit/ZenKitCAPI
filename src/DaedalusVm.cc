@@ -254,6 +254,7 @@ void ZkDaedalusVm_callFunction(ZkDaedalusVm* slf, ZkDaedalusSymbol* sym) {
 	ZKC_TRACE_FN();
 	ZKC_CHECK_NULLV(slf);
 	slf->handle.unsafe_call(sym);
+	slf->handle.unsafe_clear_stack();
 }
 
 ZkDaedalusInstance* ZkDaedalusVm_allocInstance(ZkDaedalusVm* slf, ZkDaedalusSymbol* sym, ZkDaedalusInstanceType type) {
