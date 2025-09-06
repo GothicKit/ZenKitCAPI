@@ -6,6 +6,53 @@
 #include <exception>
 #include <zenkit/addon/daedalus.hh>
 
+class ZkTransientInstance final : public zenkit::DaedalusTransientInstance {
+private:
+	void* _m_ctx;
+	ZkDaedalusTransientInstanceIntGetter _m_get_int;
+	ZkDaedalusTransientInstanceIntSetter _m_set_int;
+	ZkDaedalusTransientInstanceFloatGetter _m_get_float;
+	ZkDaedalusTransientInstanceFloatSetter _m_set_float;
+	ZkDaedalusTransientInstanceStringGetter _m_get_string;
+	ZkDaedalusTransientInstanceStringSetter _m_set_string;
+
+public:
+	ZkTransientInstance(void* m_ctx,
+	                    ZkDaedalusTransientInstanceIntGetter get_int,
+	                    ZkDaedalusTransientInstanceIntSetter set_int,
+	                    ZkDaedalusTransientInstanceFloatGetter get_float,
+	                    ZkDaedalusTransientInstanceFloatSetter set_float,
+	                    ZkDaedalusTransientInstanceStringGetter get_string,
+	                    ZkDaedalusTransientInstanceStringSetter set_string)
+	    : _m_ctx(m_ctx), _m_get_int(get_int), _m_set_int(set_int), _m_get_float(get_float), _m_set_float(set_float),
+	      _m_get_string(get_string), _m_set_string(set_string) {}
+
+protected:
+	void set_int(const zenkit::DaedalusSymbol& sym, uint16_t index, std::int32_t value) override {
+		_m_set_int(_m_ctx, const_cast<zenkit::DaedalusSymbol*>(&sym), index, value);
+	}
+
+	[[nodiscard]] std::int32_t get_int(const zenkit::DaedalusSymbol& sym, uint16_t index) const override {
+		return _m_get_int(_m_ctx, const_cast<zenkit::DaedalusSymbol*>(&sym), index);
+	}
+
+	void set_float(const zenkit::DaedalusSymbol& sym, uint16_t index, float value) override {
+		_m_set_float(_m_ctx, const_cast<zenkit::DaedalusSymbol*>(&sym), index, value);
+	}
+
+	[[nodiscard]] float get_float(const zenkit::DaedalusSymbol& sym, uint16_t index) const override {
+		return _m_get_float(_m_ctx, const_cast<zenkit::DaedalusSymbol*>(&sym), index);
+	}
+
+	void set_string(const zenkit::DaedalusSymbol& sym, uint16_t index, std::string_view value) override {
+		_m_set_string(_m_ctx, const_cast<zenkit::DaedalusSymbol*>(&sym), index, value.data());
+	}
+
+	[[nodiscard]] const std::string& get_string(const zenkit::DaedalusSymbol& sym, uint16_t index) const override {
+		return _m_get_string(_m_ctx, const_cast<zenkit::DaedalusSymbol*>(&sym), index);
+	}
+};
+
 ZKC_LOADER(ZkDaedalusScript)
 ZKC_PATH_LOADER(ZkDaedalusScript)
 ZKC_VFS_LOADER(ZkDaedalusScript)
@@ -192,6 +239,16 @@ uint32_t ZkDaedalusSymbol_getIndex(ZkDaedalusSymbol const* slf) {
 ZkDaedalusDataType ZkDaedalusSymbol_getReturnType(ZkDaedalusSymbol const* slf) {
 	ZKC_CHECK_NULL(slf);
 	ZKC_RETURN_CATCH(static_cast<ZkDaedalusDataType>(slf->rtype()));
+}
+
+ZkDaedalusInstance* ZkDaedalusInstance_newTransient(void* ctx,
+                                                    ZkDaedalusTransientInstanceIntGetter getInt,
+                                                    ZkDaedalusTransientInstanceIntSetter setInt,
+                                                    ZkDaedalusTransientInstanceFloatGetter getFloat,
+                                                    ZkDaedalusTransientInstanceFloatSetter setFloat,
+                                                    ZkDaedalusTransientInstanceStringGetter getString,
+                                                    ZkDaedalusTransientInstanceStringSetter setString) {
+	return new ZkDaedalusInstance(new ZkTransientInstance(ctx, getInt, setInt, getFloat, setFloat, getString, setString));
 }
 
 ZKC_API ZkDaedalusInstanceType ZkDaedalusInstance_getType(ZkDaedalusInstance const* slf) {

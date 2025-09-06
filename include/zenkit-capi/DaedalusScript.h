@@ -114,6 +114,12 @@ typedef struct {
 } ZkDaedalusInstruction;
 
 typedef ZkBool (*ZkDaedalusSymbolEnumerator)(void* ctx, ZkDaedalusSymbol* symbol);
+typedef void (*ZkDaedalusTransientInstanceIntSetter)(void* ctx, ZkDaedalusSymbol* sym, uint16_t idx, int32_t val);
+typedef int32_t (*ZkDaedalusTransientInstanceIntGetter)(void* ctx, ZkDaedalusSymbol* sym, uint16_t idx);
+typedef void (*ZkDaedalusTransientInstanceFloatSetter)(void* ctx, ZkDaedalusSymbol* sym, uint16_t idx, float val);
+typedef float (*ZkDaedalusTransientInstanceFloatGetter)(void* ctx, ZkDaedalusSymbol* sym, uint16_t idx);
+typedef void (*ZkDaedalusTransientInstanceStringSetter)(void* ctx, ZkDaedalusSymbol* sym, uint16_t idx, char const* val);
+typedef char const* (*ZkDaedalusTransientInstanceStringGetter)(void* ctx, ZkDaedalusSymbol* sym, uint16_t idx);
 
 ZKC_API ZkDaedalusScript* ZkDaedalusScript_load(ZkRead* buf);
 ZKC_API ZkDaedalusScript* ZkDaedalusScript_loadPath(ZkString path);
@@ -157,6 +163,16 @@ ZKC_API int32_t ZkDaedalusSymbol_getSize(ZkDaedalusSymbol const* slf);
 ZKC_API ZkDaedalusDataType ZkDaedalusSymbol_getType(ZkDaedalusSymbol const* slf);
 ZKC_API uint32_t ZkDaedalusSymbol_getIndex(ZkDaedalusSymbol const* slf);
 ZKC_API ZkDaedalusDataType ZkDaedalusSymbol_getReturnType(ZkDaedalusSymbol const* slf);
+
+ZKC_API ZkDaedalusInstance* ZkDaedalusInstance_newTransient(
+	void* ctx,
+	ZkDaedalusTransientInstanceIntGetter getInt,
+	ZkDaedalusTransientInstanceIntSetter setInt,
+	ZkDaedalusTransientInstanceFloatGetter getFloat,
+	ZkDaedalusTransientInstanceFloatSetter setFloat,
+	ZkDaedalusTransientInstanceStringGetter getString,
+	ZkDaedalusTransientInstanceStringSetter setString
+);
 
 ZKC_API void ZkDaedalusInstance_release(ZkDaedalusInstance const* slf);
 ZKC_API ZkDaedalusInstanceType ZkDaedalusInstance_getType(ZkDaedalusInstance const* slf);
