@@ -46,7 +46,7 @@ jobs:
           submodules: 'recursive'
       - uses: 'maxim-lobanov/setup-xcode@v1'
         with:
-          xcode-version: 15
+          xcode-version: 16
       - name: 'Configure'
         run: 'cmake -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_SQUISH_WITH_SSE2=OFF'
       - name: 'Build'
