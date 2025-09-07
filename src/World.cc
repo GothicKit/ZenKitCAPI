@@ -108,7 +108,7 @@ ZkMesh const* ZkWorld_getMesh(ZkWorld const* slf) {
 ZkWayNet const* ZkWorld_getWayNet(ZkWorld const* slf) {
 	ZKC_TRACE_FN();
 	ZKC_CHECK_NULL(slf);
-	return &SLF->world_way_net;
+	return SLF->way_net.get();
 }
 
 ZkBspTree const* ZkWorld_getBspTree(ZkWorld const* slf) {

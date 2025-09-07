@@ -1,4 +1,4 @@
-// Copyright © 2023. GothicKit Contributors
+// Copyright © 2023-2025 GothicKit Contributors
 // SPDX-License-Identifier: MIT
 #pragma once
 #include "../Boxes.h"
@@ -6,17 +6,16 @@
 #include "../Vector.h"
 
 #ifdef __cplusplus
+	#include "zenkit-capi/Object.h"
+
 	#include <zenkit/world/WayNet.hh>
 using ZkWayNet = zenkit::WayNet;
-using ZkWayPoint = zenkit::WayPoint;
-using ZkWayEdge = zenkit::WayEdge;
+using ZkWayPoint = ZkSharedHandle<zenkit::WayPoint>;
+using ZkWayEdge = std::pair<std::shared_ptr<zenkit::WayPoint>, std::shared_ptr<zenkit::WayPoint>>;
 #else
 typedef struct ZkInternal_WayNet ZkWayNet;
 typedef struct ZkInternal_WayPoint ZkWayPoint;
-
-typedef struct {
-	uint32_t a, b;
-} ZkWayEdge;
+typedef struct ZkInternal_WayEdge ZkWayEdge;
 #endif
 
 typedef ZkBool (*ZkWayPointEnumerator)(void* ctx, ZkWayPoint const* point);
@@ -33,3 +32,6 @@ ZKC_API ZkBool ZkWayPoint_getUnderWater(ZkWayPoint const* slf);
 ZKC_API ZkVec3f ZkWayPoint_getPosition(ZkWayPoint const* slf);
 ZKC_API ZkVec3f ZkWayPoint_getDirection(ZkWayPoint const* slf);
 ZKC_API ZkBool ZkWayPoint_getFreePoint(ZkWayPoint const* slf);
+
+ZKC_API ZkWayPoint const* ZkWayEdge_getStartPoint(ZkWayEdge const* slf);
+ZKC_API ZkWayPoint const* ZkWayEdge_getEndPoint(ZkWayEdge const* slf);
