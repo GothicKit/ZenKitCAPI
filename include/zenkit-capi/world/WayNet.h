@@ -19,8 +19,11 @@ typedef struct ZkInternal_WayEdge ZkWayEdge;
 #endif
 
 typedef ZkBool (*ZkWayPointEnumerator)(void* ctx, ZkWayPoint const* point);
+typedef ZkBool (*ZkWayEdgeEnumerator)(void* ctx, ZkWayEdge const* edge);
 
-ZKC_API ZkWayEdge const* ZkWayNet_getEdges(ZkWayNet const* slf, ZkSize* count);
+ZKC_API ZkSize ZkWayNet_getEdgeCount(ZkWayNet const* slf);
+ZKC_API ZkWayEdge const* ZkWayNet_getEdge(ZkWayNet const* slf, ZkSize i);
+ZKC_API void ZkWayNet_enumerateEdges(ZkWayNet const* slf, ZkWayEdgeEnumerator cb, void* ctx);
 
 ZKC_API ZkSize ZkWayNet_getPointCount(ZkWayNet const* slf);
 ZKC_API ZkWayPoint const* ZkWayNet_getPoint(ZkWayNet const* slf, ZkSize i);

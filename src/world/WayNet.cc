@@ -4,12 +4,26 @@
 
 #include "../Internal.hh"
 
-ZkWayEdge const* ZkWayNet_getEdges(ZkWayNet const* slf, ZkSize* count) {
+ZkSize ZkWayNet_getEdgeCount(ZkWayNet const* slf) {
 	ZKC_TRACE_FN();
-	ZKC_CHECK_NULL(slf, count);
+	ZKC_CHECK_NULL(slf);
+	return slf->edges.size();
+}
 
-	*count = slf->edges.size();
-	return slf->edges.data();
+ZkWayEdge const* ZkWayNet_getEdge(ZkWayNet const* slf, ZkSize i) {
+	ZKC_TRACE_FN();
+	ZKC_CHECK_NULL(slf);
+	ZKC_CHECK_LEN(slf->edges, i);
+	return &slf->edges[i];
+}
+
+void ZkWayNet_enumerateEdges(ZkWayNet const* slf, ZkWayEdgeEnumerator cb, void* ctx) {
+	ZKC_TRACE_FN();
+	ZKC_CHECK_NULLV(slf, cb);
+
+	for (auto& edge : slf->edges) {
+		if (cb(ctx, &edge)) break;
+	}
 }
 
 ZkSize ZkWayNet_getPointCount(ZkWayNet const* slf) {
