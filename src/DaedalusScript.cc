@@ -49,7 +49,10 @@ protected:
 	}
 
 	[[nodiscard]] const std::string& get_string(const zenkit::DaedalusSymbol& sym, uint16_t index) const override {
-		return _m_get_string(_m_ctx, const_cast<zenkit::DaedalusSymbol*>(&sym), index);
+		// TODO: Kinda weird but should work.
+		static std::string tmp = "";
+		tmp = _m_get_string(_m_ctx, const_cast<zenkit::DaedalusSymbol*>(&sym), index);
+		return tmp;
 	}
 };
 
