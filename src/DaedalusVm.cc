@@ -38,14 +38,14 @@ ZkDaedalusVm* ZkDaedalusVm_load(ZkRead* buf) {
 
 			auto params = v.find_parameters_for_function(&sym);
 			for (int i = static_cast<int>(params.size()) - 1; i >= 0; --i) {
-				auto par = params[static_cast<unsigned>(i)];
+				auto& par = params[static_cast<unsigned>(i)];
 
-				if (par->type() == zenkit::DaedalusDataType::INT)
+				if (par.type() == zenkit::DaedalusDataType::INT)
 					(void) v.pop_int();
-				else if (par->type() == zenkit::DaedalusDataType::FLOAT)
+				else if (par.type() == zenkit::DaedalusDataType::FLOAT)
 					(void) v.pop_float();
-				else if (par->type() == zenkit::DaedalusDataType::INSTANCE ||
-				         par->type() == zenkit::DaedalusDataType::STRING)
+				else if (par.type() == zenkit::DaedalusDataType::INSTANCE ||
+				         par.type() == zenkit::DaedalusDataType::STRING)
 					(void) v.pop_reference();
 			}
 
