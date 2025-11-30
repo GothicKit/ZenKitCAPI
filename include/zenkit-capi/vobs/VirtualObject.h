@@ -9,8 +9,8 @@
 #include "../Vector.h"
 
 #ifdef __cplusplus
-	#include <zenkit/vobs/VirtualObject.hh>
 	#include <zenkit/CutsceneLibrary.hh>
+	#include <zenkit/vobs/VirtualObject.hh>
 
 using ZkVirtualObject = ZkSharedHandle<zenkit::VirtualObject>;
 using ZkVisual = ZkSharedHandle<zenkit::Visual>;

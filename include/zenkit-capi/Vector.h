@@ -4,8 +4,8 @@
 #include <stdint.h>
 
 #ifdef __cplusplus
-	#include <zenkit/Texture.hh>
 	#include <zenkit/Misc.hh>
+	#include <zenkit/Texture.hh>
 #endif
 
 typedef struct ZkInternal_Vec2 {

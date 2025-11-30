@@ -54,11 +54,9 @@ ZkWorld* ZkWorld_loadVersioned(ZkRead* buf, ZkGameVersion version) {
 		SLF->load(buf, static_cast<zenkit::GameVersion>(version));
 		return slf;
 	} catch (std::exception const& exc) {
-		ZKC_LOG_ERROR("ZkWorld_load() failed: %s",
-					  exc.what());
+		ZKC_LOG_ERROR("ZkWorld_load() failed: %s", exc.what());
 		return nullptr;
 	}
-
 }
 
 ZkWorld* ZkWorld_loadPathVersioned(ZkString path, ZkGameVersion version) {
@@ -73,8 +71,7 @@ ZkWorld* ZkWorld_loadPathVersioned(ZkString path, ZkGameVersion version) {
 
 		return slf;
 	} catch (std::exception const& exc) {
-		ZKC_LOG_ERROR("ZkWorld_loadPath() failed: %s",
-					  exc.what());
+		ZKC_LOG_ERROR("ZkWorld_loadPath() failed: %s", exc.what());
 		return nullptr;
 	}
 }
@@ -219,11 +216,7 @@ ZkSpawnLocation ZkWorld_getSpawnLocation(ZkWorld* slf, ZkSize i) {
 	ZKC_CHECK_LEN(SLF->npc_spawns, i);
 
 	auto& s = SLF->npc_spawns[i];
-	return {
-		&s.npc,
-		s.position,
-		s.timer
-	};
+	return {&s.npc, s.position, s.timer};
 }
 
 void ZkWorld_clearSpawnLocations(ZkWorld* slf) {
@@ -237,9 +230,9 @@ void ZkWorld_addSpawnLocation(ZkWorld* slf, ZkSpawnLocation val) {
 	ZKC_CHECK_NULLV(slf);
 
 	SLF->npc_spawns.push_back({
-		*val.npc,
-		val.position,
-		val.timer,
+	    *val.npc,
+	    val.position,
+	    val.timer,
 	});
 }
 
@@ -464,4 +457,3 @@ void ZkSkyController_setRainCtr(ZkSkyController* slf, int val) {
 	ZKC_CHECK_NULLV(slf);
 	SLF->rain_ctr = val;
 }
-

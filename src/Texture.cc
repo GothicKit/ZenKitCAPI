@@ -129,7 +129,6 @@ void ZkTexture_enumerateRgbaMipmaps(ZkTexture const* slf, ZkTextureMipmapEnumera
 	}
 }
 
-
 ZkTextureBuilder* ZkTextureBuilder_new(ZkSize width, ZkSize height) {
 	ZKC_TRACE_FN();
 	return new ZkTextureBuilder {static_cast<unsigned int>(width), static_cast<unsigned int>(height)};

@@ -248,7 +248,8 @@ ZkDaedalusInstance* ZkDaedalusInstance_newTransient(void* ctx,
                                                     ZkDaedalusTransientInstanceFloatSetter setFloat,
                                                     ZkDaedalusTransientInstanceStringGetter getString,
                                                     ZkDaedalusTransientInstanceStringSetter setString) {
-	return new ZkDaedalusInstance(new ZkTransientInstance(ctx, getInt, setInt, getFloat, setFloat, getString, setString));
+	return new ZkDaedalusInstance(
+	    new ZkTransientInstance(ctx, getInt, setInt, getFloat, setFloat, getString, setString));
 }
 
 ZKC_API ZkDaedalusInstanceType ZkDaedalusInstance_getType(ZkDaedalusInstance const* slf) {
