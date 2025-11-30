@@ -23,7 +23,7 @@ jobs:
     name: "Android"
     runs-on: 'ubuntu-latest'
     container:
-      image: 'cimg/android:2023.04.1-ndk'
+      image: 'cimg/android:2025.11.1-ndk'
     steps:
       - uses: 'actions/checkout@v3'
         with:
