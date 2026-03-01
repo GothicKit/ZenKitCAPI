@@ -14,7 +14,7 @@ struct ZkInternal_DaedalusVm {
 	std::string string_scope_workaround_cache {};
 };
 
-ZkDaedalusVm* ZkDaedalusVm_load(ZkRead* buf) {
+ZkDaedalusVm* ZkDaedalusVm_load(ZkRead* buf, uint8_t flags) {
 	ZKC_TRACE_FN();
 	ZKC_CHECK_NULL(buf);
 
@@ -23,10 +23,7 @@ ZkDaedalusVm* ZkDaedalusVm_load(ZkRead* buf) {
 		script.load(buf);
 		zenkit::register_all_script_classes(script);
 
-		auto* vm = new ZkDaedalusVm {
-		    zenkit::DaedalusVm {std::move(script), zenkit::DaedalusVmExecutionFlag::ALLOW_NULL_INSTANCE_ACCESS},
-		    {},
-		    nullptr};
+		auto* vm = new ZkDaedalusVm {zenkit::DaedalusVm {std::move(script), flags}, {}, nullptr};
 		vm->handle.register_exception_handler(zenkit::lenient_vm_exception_handler);
 
 		vm->handle.register_default_external_custom([vm](zenkit::DaedalusVm& v, zenkit::DaedalusSymbol& sym) {
@@ -70,20 +67,20 @@ ZkDaedalusVm* ZkDaedalusVm_load(ZkRead* buf) {
 	}
 }
 
-ZkDaedalusVm* ZkDaedalusVm_loadPath(ZkString path) {
+ZkDaedalusVm* ZkDaedalusVm_loadPath(ZkString path, uint8_t flags) {
 	ZKC_TRACE_FN();
 	ZKC_CHECK_NULL(path);
 
 	try {
 		auto buf = zenkit::Read::from(path);
-		return ZkDaedalusVm_load(buf.get());
+		return ZkDaedalusVm_load(buf.get(), flags);
 	} catch (std::exception const& exc) {
 		ZKC_LOG_ERROR("ZkDaedalusVm_load() failed: %s", exc.what());
 		return nullptr;
 	}
 }
 
-ZkDaedalusVm* ZkDaedalusVm_loadVfs(ZkVfs* vfs, ZkString name) {
+ZkDaedalusVm* ZkDaedalusVm_loadVfs(ZkVfs* vfs, ZkString name, uint8_t flags) {
 	ZKC_TRACE_FN();
 	ZKC_CHECK_NULL(vfs, name);
 
@@ -91,7 +88,7 @@ ZkDaedalusVm* ZkDaedalusVm_loadVfs(ZkVfs* vfs, ZkString name) {
 	if (node == nullptr) return nullptr;
 
 	auto rd = node->open_read();
-	return ZkDaedalusVm_load(rd.get());
+	return ZkDaedalusVm_load(rd.get(), flags);
 }
 
 ZKC_DELETER(ZkDaedalusVm)
