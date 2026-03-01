@@ -209,6 +209,16 @@ ZkBool ZkDaedalusSymbol_getHasReturn(ZkDaedalusSymbol const* slf) {
 	ZKC_RETURN_CATCH(slf->has_return());
 }
 
+void ZkDaedalusSymbol_setAccessTrapEnabled(ZkDaedalusSymbol* slf, ZkBool trap) {
+	ZKC_CHECK_NULLV(slf);
+	slf->set_access_trap_enable(trap);
+}
+
+ZkBool ZkDaedalusSymbol_getAccessTrapEnabled(ZkDaedalusSymbol const* slf) {
+	ZKC_CHECK_NULL(slf);
+	return slf->has_access_trap();
+}
+
 ZkString ZkDaedalusSymbol_getName(ZkDaedalusSymbol const* slf) {
 	ZKC_CHECK_NULL(slf);
 	ZKC_RETURN_CATCH(slf->name().c_str());

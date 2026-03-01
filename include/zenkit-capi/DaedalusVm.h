@@ -9,6 +9,7 @@
 typedef struct ZkInternal_DaedalusVm ZkDaedalusVm;
 typedef void (*ZkDaedalusVmExternalCallback)(void* ctx, ZkDaedalusVm* vm);
 typedef void (*ZkDaedalusVmExternalDefaultCallback)(void* ctx, ZkDaedalusVm* vm, ZkDaedalusSymbol* sym);
+typedef void (*ZkDaedalusVmTrapCallback)(void* ctx, ZkDaedalusSymbol const* sym);
 
 ZKC_API ZkDaedalusVm* ZkDaedalusVm_load(ZkRead* buf, uint8_t flags);
 ZKC_API ZkDaedalusVm* ZkDaedalusVm_loadPath(ZkString path, uint8_t flags);
@@ -51,3 +52,4 @@ ZKC_API void
 ZkDaedalusVm_overrideFunctionNaked(ZkDaedalusVm* slf, char const* name, ZkDaedalusVmExternalCallback cb, void* ctx);
 ZKC_API void ZkDaedalusVm_registerExternalDefault(ZkDaedalusVm* slf, ZkDaedalusVmExternalDefaultCallback cb, void* ctx);
 ZKC_API void ZkDaedalusVm_printStackTrace(ZkDaedalusVm* slf);
+ZKC_API void ZkDaedalusVm_setAccessTrapCallback(ZkDaedalusVm* slf, ZkDaedalusVmTrapCallback cb, void* ctx);

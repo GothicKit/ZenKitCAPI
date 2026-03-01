@@ -456,6 +456,12 @@ void ZkDaedalusVm_registerExternalDefault(ZkDaedalusVm* slf, ZkDaedalusVmExterna
 	slf->externalDefault = [cb, ctx](ZkDaedalusVm* vm, ZkDaedalusSymbol* sym) { cb(ctx, vm, sym); };
 }
 
+void ZkDaedalusVm_setAccessTrapCallback(ZkDaedalusVm* slf, ZkDaedalusVmTrapCallback cb, void* ctx) {
+	ZKC_TRACE_FN();
+	ZKC_CHECK_NULLV(slf);
+	slf->handle.register_access_trap([cb, ctx](zenkit::DaedalusSymbol const& sym) { cb(ctx, &sym); });
+}
+
 void ZkDaedalusVm_printStackTrace(ZkDaedalusVm* slf) {
 	ZKC_TRACE_FN();
 	ZKC_CHECK_NULLV(slf);

@@ -159,6 +159,9 @@ ZKC_API ZkBool ZkDaedalusSymbol_getIsMerged(ZkDaedalusSymbol const* slf);
 ZKC_API ZkBool ZkDaedalusSymbol_getIsGenerated(ZkDaedalusSymbol const* slf);
 ZKC_API ZkBool ZkDaedalusSymbol_getHasReturn(ZkDaedalusSymbol const* slf);
 
+ZKC_API void ZkDaedalusSymbol_setAccessTrapEnabled(ZkDaedalusSymbol* slf, ZkBool trap);
+ZKC_API ZkBool ZkDaedalusSymbol_getAccessTrapEnabled(ZkDaedalusSymbol const* slf);
+
 ZKC_API ZkString ZkDaedalusSymbol_getName(ZkDaedalusSymbol const* slf);
 ZKC_API int32_t ZkDaedalusSymbol_getAddress(ZkDaedalusSymbol const* slf);
 ZKC_API int32_t ZkDaedalusSymbol_getParent(ZkDaedalusSymbol const* slf);
