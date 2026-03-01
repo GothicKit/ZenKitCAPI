@@ -219,6 +219,16 @@ ZkBool ZkDaedalusSymbol_getAccessTrapEnabled(ZkDaedalusSymbol const* slf) {
 	return slf->has_access_trap();
 }
 
+void ZkDaedalusSymbol_setLocalVariablesEnabled(ZkDaedalusSymbol* slf, ZkBool enable) {
+	ZKC_CHECK_NULLV(slf);
+	slf->set_local_variables_enable(enable);
+}
+
+ZkBool ZkDaedalusSymbol_getLocalVariablesEnabled(ZkDaedalusSymbol const* slf) {
+	ZKC_CHECK_NULL(slf);
+	return slf->has_local_variables_enabled();
+}
+
 ZkString ZkDaedalusSymbol_getName(ZkDaedalusSymbol const* slf) {
 	ZKC_CHECK_NULL(slf);
 	ZKC_RETURN_CATCH(slf->name().c_str());
