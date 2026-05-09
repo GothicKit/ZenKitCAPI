@@ -151,6 +151,7 @@ ZKC_API void
 ZkDaedalusSymbol_setString(ZkDaedalusSymbol* slf, ZkString value, uint16_t index, ZkDaedalusInstance* context);
 ZKC_API void ZkDaedalusSymbol_setFloat(ZkDaedalusSymbol* slf, float value, uint16_t index, ZkDaedalusInstance* context);
 ZKC_API void ZkDaedalusSymbol_setInt(ZkDaedalusSymbol* slf, int32_t value, uint16_t index, ZkDaedalusInstance* context);
+ZKC_API void ZkDaedalusSymbol_setInstance(ZkDaedalusSymbol* slf, ZkDaedalusInstance* value);
 
 ZKC_API ZkBool ZkDaedalusSymbol_getIsConst(ZkDaedalusSymbol const* slf);
 ZKC_API ZkBool ZkDaedalusSymbol_getIsMember(ZkDaedalusSymbol const* slf);

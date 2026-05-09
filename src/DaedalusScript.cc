@@ -174,6 +174,16 @@ void ZkDaedalusSymbol_setFloat(ZkDaedalusSymbol* slf, float value, uint16_t inde
 	ZKC_CATCH(slf->set_float(value, index, context ? context->get() : nullptr));
 }
 
+void ZkDaedalusSymbol_setInstance(ZkDaedalusSymbol* slf, ZkDaedalusInstance* value) {
+	ZKC_CHECK_NULLV(slf);
+
+	try {
+		slf->set_instance(value ? *value : nullptr);
+	} catch (std::runtime_error const& exc) {
+		ZKC_LOG_ERROR("ZkDaedalusSymbol_setInstance() failed: %s", exc.what());
+	}
+}
+
 void ZkDaedalusSymbol_setInt(ZkDaedalusSymbol* slf, int32_t value, uint16_t index, ZkDaedalusInstance* context) {
 	ZKC_CHECK_NULLV(slf);
 	ZKC_CATCH(slf->set_int(value, index, context ? context->get() : nullptr));
