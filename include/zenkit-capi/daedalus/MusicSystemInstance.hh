@@ -2,8 +2,8 @@
 #include "../Library.h"
 
 #ifdef __cplusplus
-	#include <zenkit/addon/daedalus.hh>
 	#include <zenkit-capi/Object.h>
+	#include <zenkit/addon/daedalus.hh>
 using ZkMusicSystemInstance = ZkSharedHandle<zenkit::IMusicSystem>;
 #else
 typedef struct ZkInternal_MusicSystemInstance ZkMusicSystemInstance;

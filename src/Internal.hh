@@ -1,8 +1,8 @@
 // Copyright © 2023. GothicKit Contributors
 // SPDX-License-Identifier: MIT
 #pragma once
-#include <zenkit/Archive.hh>
 #include "zenkit-capi/Archive.h"
+#include <zenkit/Archive.hh>
 
 #include <algorithm>
 
@@ -64,7 +64,7 @@
 		}                                                                                                              \
                                                                                                                        \
 		try {                                                                                                          \
-          	slf->save(buf, static_cast<zenkit::ArchiveFormat>(fmt));                                                   \
+			slf->save(buf, static_cast<zenkit::ArchiveFormat>(fmt));                                                   \
 		} catch (std::exception const& exc) {                                                                          \
 			ZKC_LOG_ERROR(#cls "_save() failed: %s", exc.what());                                                      \
 			return;                                                                                                    \
@@ -79,8 +79,8 @@
 		}                                                                                                              \
                                                                                                                        \
 		try {                                                                                                          \
-            auto buf = zenkit::Write::to(path);                                                                        \
-            slf->save(buf.get(), static_cast<zenkit::ArchiveFormat>(fmt));                                             \
+			auto buf = zenkit::Write::to(path);                                                                        \
+			slf->save(buf.get(), static_cast<zenkit::ArchiveFormat>(fmt));                                             \
 		} catch (std::exception const& exc) {                                                                          \
 			ZKC_LOG_ERROR(#cls "_savePath() failed: %s", exc.what());                                                  \
 			return;                                                                                                    \

@@ -483,7 +483,6 @@ void ZkDaedalusVm_printStackTrace(ZkDaedalusVm* slf) {
 	ZKC_TRACE_FN();
 	ZKC_CHECK_NULLV(slf);
 	slf->handle.print_stack_trace();
-
 }
 
 ZkBool ZkDaedalusVm_isTopOfStackReference(ZkDaedalusVm* slf) {
@@ -491,4 +490,3 @@ ZkBool ZkDaedalusVm_isTopOfStackReference(ZkDaedalusVm* slf) {
 	ZKC_CHECK_NULL(slf);
 	return slf->handle.top_is_reference();
 }
-

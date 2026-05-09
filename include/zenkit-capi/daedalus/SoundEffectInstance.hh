@@ -2,8 +2,8 @@
 #include "../Library.h"
 
 #ifdef __cplusplus
-	#include <zenkit/addon/daedalus.hh>
 	#include <zenkit-capi/Object.h>
+	#include <zenkit/addon/daedalus.hh>
 using ZkSoundEffectInstance = ZkSharedHandle<zenkit::ISoundEffect>;
 #else
 typedef struct ZkInternal_SoundEffectInstance ZkSoundEffectInstance;

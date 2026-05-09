@@ -1,10 +1,9 @@
 #pragma once
 #include "../Library.h"
 
-
 #ifdef __cplusplus
-	#include <zenkit/addon/daedalus.hh>
 	#include <zenkit-capi/Object.h>
+	#include <zenkit/addon/daedalus.hh>
 using ZkSvmInstance = ZkSharedHandle<zenkit::ISvm>;
 #else
 typedef struct ZkInternal_SvmInstance ZkSvmInstance;
