@@ -56,3 +56,6 @@ ZKC_API void ZkDaedalusVm_setAccessTrapCallback(ZkDaedalusVm* slf, ZkDaedalusVmT
 
 ZKC_API ZkBool ZkDaedalusVm_isTopOfStackReference(ZkDaedalusVm* slf);
 ZKC_API ZkDaedalusSymbol* ZkDaedalusVm_popReference(ZkDaedalusVm* slf, uint8_t* idx, ZkDaedalusInstance** context);
+
+ZKC_API uint32_t ZkDaedalusVm_getProgramCounter(ZkDaedalusVm* slf);
+ZKC_API void ZkDaedalusVm_jumpUnsafe(ZkDaedalusVm* slf, uint32_t pc);

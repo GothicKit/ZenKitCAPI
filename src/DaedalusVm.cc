@@ -490,3 +490,15 @@ ZkBool ZkDaedalusVm_isTopOfStackReference(ZkDaedalusVm* slf) {
 	ZKC_CHECK_NULL(slf);
 	return slf->handle.top_is_reference();
 }
+
+uint32_t ZkDaedalusVm_getProgramCounter(ZkDaedalusVm* slf) {
+	ZKC_TRACE_FN();
+	ZKC_CHECK_NULL(slf);
+	return slf->handle.pc();
+}
+
+void ZkDaedalusVm_jumpUnsafe(ZkDaedalusVm* slf, uint32_t pc) {
+	ZKC_TRACE_FN();
+	ZKC_CHECK_NULLV(slf);
+	slf->handle.unsafe_jump(pc);
+}
