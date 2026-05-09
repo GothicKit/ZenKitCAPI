@@ -165,6 +165,23 @@ ZkDaedalusInstance* ZkDaedalusVm_popInstance(ZkDaedalusVm* slf) {
 	}
 }
 
+ZkDaedalusSymbol* ZkDaedalusVm_popReference(ZkDaedalusVm* slf, uint8_t* idx, ZkDaedalusInstance** ctx) {
+	ZKC_TRACE_FN();
+	ZKC_CHECK_NULL(slf);
+
+	try {
+		auto [int_sym, int_idx, int_ctx] = slf->handle.pop_reference();
+
+		if (idx != nullptr) *idx = int_idx;
+		if (ctx != nullptr) *ctx = int_ctx ? new ZkDaedalusInstance(std::move(int_ctx)) : nullptr;
+
+		return int_sym;
+	} catch (zenkit::DaedalusScriptError const& e) {
+		ZKC_LOG_ERROR("Failed to pop instance: %s", e.what());
+		return nullptr;
+	}
+}
+
 ZkDaedalusInstance* ZkDaedalusVm_getGlobalSelf(ZkDaedalusVm* slf) {
 	ZKC_TRACE_FN();
 	ZKC_CHECK_NULL(slf);
@@ -466,4 +483,12 @@ void ZkDaedalusVm_printStackTrace(ZkDaedalusVm* slf) {
 	ZKC_TRACE_FN();
 	ZKC_CHECK_NULLV(slf);
 	slf->handle.print_stack_trace();
+
 }
+
+ZkBool ZkDaedalusVm_isTopOfStackReference(ZkDaedalusVm* slf) {
+	ZKC_TRACE_FN();
+	ZKC_CHECK_NULL(slf);
+	return slf->handle.top_is_reference();
+}
+

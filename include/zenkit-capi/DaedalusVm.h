@@ -53,3 +53,7 @@ ZkDaedalusVm_overrideFunctionNaked(ZkDaedalusVm* slf, char const* name, ZkDaedal
 ZKC_API void ZkDaedalusVm_registerExternalDefault(ZkDaedalusVm* slf, ZkDaedalusVmExternalDefaultCallback cb, void* ctx);
 ZKC_API void ZkDaedalusVm_printStackTrace(ZkDaedalusVm* slf);
 ZKC_API void ZkDaedalusVm_setAccessTrapCallback(ZkDaedalusVm* slf, ZkDaedalusVmTrapCallback cb, void* ctx);
+
+
+ZKC_API ZkBool ZkDaedalusVm_isTopOfStackReference(ZkDaedalusVm* slf);
+ZKC_API ZkDaedalusSymbol* ZkDaedalusVm_popReference(ZkDaedalusVm* slf, uint8_t* idx, ZkDaedalusInstance** context);
