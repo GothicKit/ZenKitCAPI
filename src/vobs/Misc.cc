@@ -1340,10 +1340,10 @@ void ZkNpc_setAiVars(ZkNpc const* slf, int const* vars, ZkSize len) {
 
 	if (len > zenkit::VNpc::aivar_count) {
 		ZKC_LOG_WARN("ZkNpc_setAiVars(): too many aivars provided. truncating to 100 elements");
-		len = 100;
+		len = zenkit::VNpc::aivar_count;
 	}
-
-	memcpy(SLF->aivar, vars, len);
+	
+	memcpy(SLF->aivar, vars, len * sizeof(*SLF->aivar));
 }
 
 ZkString ZkNpc_getPacked(ZkNpc const* slf, ZkSize i) {
